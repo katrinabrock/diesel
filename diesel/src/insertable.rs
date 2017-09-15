@@ -42,7 +42,13 @@ pub trait InsertValues<T: Table, DB: Backend> {
 #[derive(Debug, Copy, Clone)]
 pub enum ColumnInsertValue<Col, Expr> {
     Expression(Col, Expr),
-    Default(Col),
+    Default,
+}
+
+impl<Col, Expr> Default for ColumnInsertValue<Col, Expr> {
+    fn default() -> Self {
+        ColumnInsertValue::Default
+    }
 }
 
 impl<Col, Expr, DB> InsertValues<Col::Table, DB> for ColumnInsertValue<Col, Expr>
@@ -122,6 +128,23 @@ where
 
     fn values(self) -> Self::Values {
         (&**self).values()
+    }
+}
+
+impl<'a, T, Tab, DB> Insertable<Tab, DB> for &'a Option<T>
+where
+    Tab: Table,
+    DB: Backend,
+    &'a T: Insertable<Tab, DB>,
+    <&'a T as Insertable<Tab, DB>>::Values: Default,
+{
+    type Values = <&'a T as Insertable<Tab, DB>>::Values;
+
+    fn values(self) -> Self::Values {
+        match *self {
+            Some(ref v) => v.values(),
+            None => Default::default(),
+        }
     }
 }
 

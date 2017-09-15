@@ -33,4 +33,6 @@ fn main() {
     //~^ ERROR E0061
     insert(&vec![&NewUser("Sean").on_conflict(id, do_nothing())]).into(users).execute(&connection);
     //~^ ERROR E0061
+    insert(&(name.eq("Sean").on_conflict_do_nothing(),)).into(users).execute(&connection);
+    //~^ ERROR E0061
 }
