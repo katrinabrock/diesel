@@ -2,7 +2,7 @@ use backend::Backend;
 use connection::Connection;
 use expression::{Expression, NonAggregate, SelectableExpression};
 use expression::operators::Eq;
-use insertable::{InsertValues, Insertable, CanInsertInSingleQuery};
+use insertable::{CanInsertInSingleQuery, InsertValues, Insertable};
 use query_builder::*;
 use query_dsl::{ExecuteDsl, LoadDsl, LoadQuery};
 use query_source::{Column, Table};
@@ -211,7 +211,8 @@ where
     }
 }
 
-impl<T, U, V, Op, Ret, Conn> LoadQuery<Conn, V> for BatchInsertStatement<T, U, Op, ReturningClause<Ret>>
+impl<T, U, V, Op, Ret, Conn> LoadQuery<Conn, V>
+    for BatchInsertStatement<T, U, Op, ReturningClause<Ret>>
 where
     Conn: Connection,
     U: CanInsertInSingleQuery<Conn::Backend>,
