@@ -32,7 +32,6 @@ pub use self::boxed_dsl::BoxedDsl;
 pub use self::count_dsl::CountDsl;
 pub use self::distinct_dsl::DistinctDsl;
 pub use self::filter_dsl::{FilterDsl, FindDsl};
-#[doc(hidden)]
 pub use self::group_by_dsl::GroupByDsl;
 pub use self::join_dsl::{InternalJoinDsl, JoinDsl, JoinOnDsl, JoinWithImplicitOnClause};
 pub use self::limit_dsl::LimitDsl;
